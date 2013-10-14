@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>TODO</title>
+  <title>The History of Four-Footed Beasts and Serpents</title>
   <style type="text/css">
     body {
       background: #fff;
@@ -64,10 +64,10 @@
       Serpents
     </h1>
 
-    <img class="illustration" src="<%= url("img/#{@delivery_count}.png") %>" />
+    <img class="illustration" src="<%= url("img/#{@image}") %>" />
 
     <p class="edition">
-      <%= @delivery_count+1 %> of <%= settings.descriptions.length %>
+      <%= @delivery_count+1 %> of <%= settings.editions.length %>
     </p>
 
     <p class="description"><%= @description %></p>

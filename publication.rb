@@ -2,43 +2,44 @@ require 'sinatra'
 
 
 configure do
-  set :descriptions, [
-      'Satyre',
-      'Porcuspine or Porcupine',
-      'Lamia',
-      'Man Ape',
-      'Arabian or Egyptian Land Crocodile',
-      'Camelopardals',
-      'Boa',
-      'Unicorn',
-      'Beaver',
-      'Aegopithecus',
-      'Badger',
-      'Hydra',
-      'Ape',
-      'Mantichora',
-      'Squirrel',
-      'Scythian Wolf',
-      'Beaver',
-      'Cepus or Martime monkey',
-      'The mole or want',
-      'Spinga or Sphinx',
-      'Bear Ape Arctopithecus',
-      'Cat',
-      'Winged Dragon',
-      'Prasyan Ape',
-      'A wilde beaste in the New Found World called SU',
-      'Bear',
-      'Sagoin, called Galeopithecus',
-      'Lion',
-    ]
+  set :editions, [
+    ['satyre.png', 'Satyre'],
+    ['porcupine.png', 'Porcuspine or Porcupine'],
+    ['lamia.png', 'Lamia'],
+    ['man_ape.png', 'Man Ape'],
+    ['crocodile.png', 'Arabian or Egyptian Land Crocodile'],
+    ['camelopardals.png', 'Camelopardals'],
+    ['boa.png', 'Boa'],
+    ['unicorn.png', 'Unicorn'],
+    ['aegopithecus.png', 'Aegopithecus'],
+    ['badger.png', 'Badger'],
+    ['hydra.png', 'Hydra'],
+    ['ape.png', 'Ape'],
+    ['mantichora.png', 'Mantichora'],
+    ['squirrel.png', 'Squirrel'],
+    ['scythian_wolf.png', 'Scythian Wolf'],
+    ['beaver.png', 'Beaver'],
+    ['cepus_monkey.png', 'Cepus or Martime monkey'],
+    ['mole.png', 'The mole or want'],
+    ['sphinx.png', 'Spinga or Sphinx'],
+    ['bear_ape.png', 'Bear Ape Arctopithecus'],
+    ['cat.png', 'Cat'],
+    ['dragon.png', 'Winged Dragon'],
+    ['prasyan_ape.png', 'Prasyan Ape'],
+    ['su.png', 'A wilde beaste in the New Found World called SU'],
+    ['bear.png', 'Bear'],
+    ['sagoin.png', 'Sagoin, called Galeopithecus'],
+    ['lion.png', 'Lion'],
+    ['another_monster.png', 'Another Monster'],
+  ]
 end
 
 
 # Called to generate the sample shown on BERG Cloud Remote.
 get '/sample/' do
   @delivery_count = 0
-  @description = settings.descriptions[@delivery_count]
+  @image = settings.editions[@delivery_count][0]
+  @description = settings.editions[@delivery_count][1]
   content_type 'text/html; charset=utf-8'
   etag Digest::MD5.hexdigest('sample' + Date.today.strftime('%d%m%Y'))
   erb :edition
@@ -66,13 +67,14 @@ get '/edition/' do
     etag Digest::MD5.hexdigest('empty' + Date.today.strftime('%d%m%Y'))
     return 204
 
-  elsif (@delivery_count + 1) > settings.descriptions.length
+  elsif (@delivery_count + 1) > settings.editions.length
     # The publication has finished, so unsubscribe this subscriber.
     return 410
 
   else
     # It's all good, so display the publication.
-    @description = settings.descriptions[@delivery_count]
+    @image = settings.editions[@delivery_count][0]
+    @description = settings.editions[@delivery_count][1]
     content_type 'text/html; charset=utf-8'
     etag Digest::MD5.hexdigest(@delivery_count.to_s + Date.today.strftime('%d%m%Y'))
     erb :edition

@@ -5,7 +5,7 @@
   "description": "Woodcuts of real and fantastical creatures from the 1658 book compiled by English clergyman Edward Topsell",
   "delivered_on": "every Wednesday",
   "external_configuration": false,
-  "send_timezone_info": false,
+  "send_timezone_info": true,
   "send_delivery_count": true,
   "config": {}
 }
