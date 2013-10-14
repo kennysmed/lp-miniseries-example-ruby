@@ -31,6 +31,10 @@ configure do
     ['sagoin.png', 'Sagoin, called Galeopithecus'],
     ['lion.png', 'Lion'],
     ['another_monster.png', 'Another Monster'],
+    ['adder.png', 'Adder'],
+    ['african_bugil.png', 'African Bugil'],
+    ['allocamelus.png', 'Allocamelus'],
+    ['alpine_mouse.png', 'Alpine Mouse'],
   ]
 end
 
