@@ -42,7 +42,7 @@ end
 # Called to generate the sample shown on BERG Cloud Remote.
 get '/sample/' do
   @delivery_count = 0
-  @image = settings.editions[@delivery_count][0]
+  @image_name = settings.editions[@delivery_count][0]
   @description = settings.editions[@delivery_count][1]
   content_type 'text/html; charset=utf-8'
   etag Digest::MD5.hexdigest('sample' + Date.today.strftime('%d%m%Y'))
@@ -53,12 +53,7 @@ end
 # Called by BERG Cloud to generate publication output to print.
 get '/edition/' do
 
-  if params[:delivery_count]
-    @delivery_count = params[:delivery_count].to_i
-  else
-    # A sensible default.
-    @delivery_count = 0
-  end
+  @delivery_count = params.fetch('delivery_count', 0).to_i
 
   if params[:local_delivery_time]
     date = Time.parse(params[:local_delivery_time])
@@ -77,7 +72,7 @@ get '/edition/' do
 
   else
     # It's all good, so display the publication.
-    @image = settings.editions[@delivery_count][0]
+    @image_name = settings.editions[@delivery_count][0]
     @description = settings.editions[@delivery_count][1]
     content_type 'text/html; charset=utf-8'
     etag Digest::MD5.hexdigest(@delivery_count.to_s + Date.today.strftime('%d%m%Y'))
