@@ -61,7 +61,7 @@ get '/edition/' do
     # date is on.
     date = Time.parse(params[:local_delivery_time][0..-7])
   else
-		# Default to now.
+    # Default to now.
     date = Time.now
   end
 
