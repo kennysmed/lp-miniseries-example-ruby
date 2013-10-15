@@ -1,7 +1,7 @@
 require 'sinatra'
 
-
 configure do
+  # Data for each edition: image filename, description.
   set :editions, [
     ['satyre.png', 'Satyre'],
     ['porcupine.png', 'Porcuspine or Porcupine'],
@@ -41,6 +41,7 @@ end
 
 # Called to generate the sample shown on BERG Cloud Remote.
 get '/sample/' do
+  # We can choose which edition we want as the sample:
   @delivery_count = 0
   @image_name = settings.editions[@delivery_count][0]
   @description = settings.editions[@delivery_count][1]
@@ -52,23 +53,25 @@ end
 
 # Called by BERG Cloud to generate publication output to print.
 get '/edition/' do
-
   @delivery_count = params.fetch('delivery_count', 0).to_i
 
   if params[:local_delivery_time]
-    date = Time.parse(params[:local_delivery_time])
+    # local_delivery_time is like '2013-10-16T23:20:30-08:00'.
+    # We strip off the timezone, as we only need to know what day this
+    # date is on.
+    date = Time.parse(params[:local_delivery_time][0..-7])
   else
+		# Default to now.
     date = Time.now
   end
 
-  if ! date.wednesday?
-    # No content is delivered this day.
-    etag Digest::MD5.hexdigest('empty' + Date.today.strftime('%d%m%Y'))
-    return 204
-
-  elsif (@delivery_count + 1) > settings.editions.length
+  if (@delivery_count + 1) > settings.editions.length
     # The publication has finished, so unsubscribe this subscriber.
     return 410
+
+  elsif ! date.wednesday?
+    # No content is delivered this day.
+    return 204
 
   else
     # It's all good, so display the publication.
