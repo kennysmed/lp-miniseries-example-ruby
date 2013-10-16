@@ -1,47 +1,13 @@
+require 'json'
 require 'sinatra'
 
-configure do
-  # Data for each edition: image filename, description.
-  set :editions, [
-    ['adder.png', 'Adder'],
-    ['aegopithecus.png', 'Aegopithecus'],
-    ['african_bugil.png', 'African Bugil'],
-    ['allocamelus.png', 'Allocamelus'],
-    ['alpine_mouse.png', 'Alpine Mouse'],
-    ['another_monster.png', 'Another Monster'],
-    ['antalope.png', 'Antalope'],
-    ['ape.png', 'Ape'],
-    ['ape_calitrich.png', 'Ape Calitrich'],
-    ['arabian_crocodile.png', 'Arabian or Egyptian Land Crocodile'],
-    ['arabian_sheep_broad.png', 'Arabian Sheep with a broad tail'],
-    ['arabian_sheep_long.png', 'Arabian Sheep with a long tail'],
-    ['aspes.png', 'Aspes'],
-    ['asse.png', 'Asse'],
-    ['badger.png', 'Badger'],
-    ['bear.png', 'Bear'],
-    ['bear_ape.png', 'Bear Ape Arctopithecus'],
-    ['beaver.png', 'Beaver'],
-    ['boa.png', 'Boa'],
-    ['camelopardals.png', 'Camelopardals'],
-    ['cat.png', 'Cat'],
-    ['cepus_monkey.png', 'Cepus or Martime monkey'],
-    ['hydra.png', 'Hydra'],
-    ['lamia.png', 'Lamia'],
-    ['lion.png', 'Lion'],
-    ['man_ape.png', 'Man Ape'],
-    ['mantichora.png', 'Mantichora'],
-    ['mole.png', 'The mole or want'],
-    ['porcupine.png', 'Porcuspine or Porcupine'],
-    ['prasyan_ape.png', 'Prasyan Ape'],
-    ['sagoin.png', 'Sagoin, called Galeopithecus'],
-    ['satyre.png', 'Satyre'],
-    ['scythian_wolf.png', 'Scythian Wolf'],
-    ['sphinx.png', 'Spinga or Sphinx'],
-    ['squirrel.png', 'Squirrel'],
-    ['su.png', 'A wilde beaste in the New Found World called SU'],
-    ['unicorn.png', 'Unicorn'],
-    ['winged_dragon.png', 'Winged Dragon'],
-  ]
+
+helpers do
+  # editions will be an array of arrays.
+  # Each sub-array be like ["ape.png", "Ape"]
+  def editions
+    @editions ||= JSON.parse( IO.read(Dir.pwd + '/editions.json') )
+  end
 end
 
 
@@ -49,8 +15,8 @@ end
 get '/sample/' do
   # We can choose which edition we want as the sample:
   @delivery_count = 0
-  @image_name = settings.editions[@delivery_count][0]
-  @description = settings.editions[@delivery_count][1]
+  @image_name = editions[@delivery_count][0]
+  @description = editions[@delivery_count][1]
   content_type 'text/html; charset=utf-8'
   etag Digest::MD5.hexdigest('sample' + Date.today.strftime('%d%m%Y'))
   erb :edition
@@ -71,7 +37,7 @@ get '/edition/' do
     date = Time.now
   end
 
-  if (@delivery_count + 1) > settings.editions.length
+  if (@delivery_count + 1) > editions.length
     # The publication has finished, so unsubscribe this subscriber.
     return 410
 
@@ -81,8 +47,8 @@ get '/edition/' do
 
   else
     # It's all good, so display the publication.
-    @image_name = settings.editions[@delivery_count][0]
-    @description = settings.editions[@delivery_count][1]
+    @image_name = editions[@delivery_count][0]
+    @description = editions[@delivery_count][1]
     content_type 'text/html; charset=utf-8'
     etag Digest::MD5.hexdigest(@delivery_count.to_s + Date.today.strftime('%d%m%Y'))
     erb :edition
