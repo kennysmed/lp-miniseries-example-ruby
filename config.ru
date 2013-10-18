@@ -1,3 +1,3 @@
-require "publication"
+require './publication'
 
 run Sinatra::Application
