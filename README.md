@@ -7,7 +7,7 @@ This is an example publication, written in Ruby with the [Sinatra framework](htt
 
 The working publication (using the Ruby code) can be subscribed to [on BERG Cloud Remote](http://remote.bergcloud.com/publications/335).
 
-The publication will deliver a new image to your Little Printer every weekday for 174 days, from [the 1658 book](http://digital.lib.uh.edu/collection/p15195coll18) <cite>The History of Four-Footed Beasts and Serpents</cite>.
+The publication will deliver a new image to your Little Printer every weekday for 174 days, from [the 1658 book](http://digital.lib.uh.edu/collection/p15195coll18) 'The History of Four-Footed Beasts and Serpents'.
 
 ## Run it
 
