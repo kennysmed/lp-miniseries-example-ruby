@@ -17,10 +17,10 @@ Run the server with:
 
 You can then visit these URLs:
 
-    * `/edition/?delivery_count=0&local_delivery_time=2013-10-21T19:20:30+01:00`
-    * `/icon.png`
-    * `/meta.json`
-    * `/sample/`
+* `/edition/?delivery_count=0&local_delivery_time=2013-10-21T19:20:30+01:00`
+* `/icon.png`
+* `/meta.json`
+* `/sample/`
 
 Change the value of `delivery_count` in the call to `/edition/` to see other editions.
 
